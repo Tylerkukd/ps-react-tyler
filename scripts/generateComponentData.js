@@ -1,7 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var chalk = require('chalk');
-var parse = require('react-docgen');
+var parse = require('react-docgen').parse;
 var chokidar = require('chokidar');
 
 var paths = {
@@ -27,14 +27,15 @@ function generate(paths) {
     try {
       return getComponentData(paths, componentName)
     } catch(error) {
-      errors.push('An error occured while attempting to generate metadata for ' + componentName + '.' + error);
+      errors.push('An error occured while attempting to generate metadata for ' + componentName + '. ' + error);
     }
   });
-  writeFile(paths.output, "module.export = " + JSON.stringify(errors.length ? errors : componentData));
+  writeFile(paths.output, "module.exports = " + JSON.stringify(errors.length ? errors : componentData));
 }
 
 function getComponentData(paths, componentName) {
   var content = readFile(path.join(paths.components, componentName, componentName + '.js'));
+  var info = parse(content);
   return {
     name: componentName,
     description: info.description,
@@ -55,7 +56,7 @@ function getExampleData(examplesPath, componentName) {
       // So remove the .js extension to get the component name
       name: file.slice(0, -3),
       description: info.description,
-      code; content
+      code: content
     };
   });
 }
@@ -65,7 +66,7 @@ function getExampleFiles(examplesPath, componentName) {
   try {
     exampleFiles = getFiles(path.join(examplesPath, componentName));
   } catch(error) {
-    console.lo(chalk.red(`No examples found for ${componentName}.`));
+    console.log(chalk.red(`No examples found for ${componentName}.`));
   }
   return exampleFiles;
 }
@@ -88,6 +89,6 @@ function writeFile(filepath, content) {
   });
 }
 
-function readFile(filePath) {
+function readFile(filepath) {
   return fs.readFileSync(filepath, 'utf-8');
 }
