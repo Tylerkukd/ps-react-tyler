@@ -41,7 +41,7 @@ class Example extends React.Component {
 
 Example.propTypes = {
   example: PropTypes.object.isRequired,
-  componentame: PropTypes.string.isRequired
+  componentName: PropTypes.string.isRequired
 }
 
 export default Example;

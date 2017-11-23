@@ -14,7 +14,7 @@ export default class Docs extends React.Component {
 componentDidMount() {
   window.addEventListener('hashchange', () => {
     this.setState({route: window.location.hash.substr(1)})
-  })
+  });
 }
 
 render() {
