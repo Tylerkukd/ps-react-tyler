@@ -88,9 +88,9 @@ class RegistrationForm extends React.Component {
   }
 }
 
-RegistrationForm.PropTypes = {
+RegistrationForm.propTypes = {
   /** Message displayed upon successful submission */
-  conformationMessage: PropTypes.string,
+  confirmationMessage: PropTypes.string,
 
   /** Called when form is submitted */
   onSubmit: PropTypes.func.isRequired,
